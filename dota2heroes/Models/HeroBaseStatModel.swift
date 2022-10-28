@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct HeroBaseStatModel: Decodable {
+    let id: Int
+    let icon: String?
+    let baseStatus: String?
+    let baseStatusData: Int?
+}

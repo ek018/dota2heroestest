@@ -5,4 +5,8 @@
 //  Created by Eko Prasetiyo on 20/10/22.
 //
 
-import Foundation
+import UIKit
+
+extension UIColor {
+    static var backgroundColor = UIColor(named: "backgroundColor")
+}

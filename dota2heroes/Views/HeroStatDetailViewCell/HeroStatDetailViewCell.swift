@@ -9,6 +9,11 @@ import UIKit
 
 class HeroStatDetailViewCell: UITableViewCell {
 
+    @IBOutlet weak var heroBaseStatImage: UIImageView!
+    @IBOutlet weak var heroBaseTitleLabel: UILabel!
+    @IBOutlet weak var heroBaseDataSubtitleLabel: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

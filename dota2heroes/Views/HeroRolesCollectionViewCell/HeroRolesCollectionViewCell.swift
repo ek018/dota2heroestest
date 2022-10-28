@@ -9,6 +9,8 @@ import UIKit
 
 class HeroRolesCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var primaryFilterButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

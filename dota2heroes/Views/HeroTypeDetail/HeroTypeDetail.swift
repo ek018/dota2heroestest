@@ -1,18 +1,16 @@
 //
-//  HeroTitleDetailView.swift
+//  HeroTypeDetail.swift
 //  dota2heroes
 //
-//  Created by Eko Prasetiyo on 21/10/22.
+//  Created by Eko Prasetiyo on 26/10/22.
 //
 
 import UIKit
 
-class HeroTitleDetailView: UIView {
-    
-    @IBOutlet weak var heroIconImage: UIImageView!
+class HeroTypeDetail: UIView {
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,6 +23,7 @@ class HeroTitleDetailView: UIView {
     }
     
     private func _commonInit() {
-        _ = fromNib(nibName: "HeroTitleDetailView")
+        _ = fromNib(nibName: "HeroTypeDetail")
     }
+    
 }
