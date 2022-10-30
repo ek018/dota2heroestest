@@ -2,17 +2,14 @@
 //  HomeViewModel.swift
 //  dota2heroes
 //
-//  Created by Eko Prasetiyo on 19/10/22.
+//  Created by Eko Prasetiyo on 27/10/22.
 //
 
 import Foundation
 
 class HomeViewModel {
-    func combine<T>(_ arrays: Array<T>?...) -> Set<T> {
-        return arrays.compactMap{$0}.compactMap{Set($0)}.reduce(Set<T>()){$0.union($1)}
-    }
     
-    func fetchHeroListStat(completionHandler: @escaping(HeroStats) -> Void) {
+    func fetchHeroListStat(completionHandler: @escaping(HeroStats, [String]) -> Void) {
         guard let url = URL(string: "\(ApiServices.baseURL)/api/herostats") else {
             return
         }
@@ -28,7 +25,11 @@ class HomeViewModel {
             
             do {
                 let decodeHero = try JSONDecoder().decode(HeroStats.self, from: data)
-                completionHandler(decodeHero)
+                let heroRoles = decodeHero.map(\.roles).flatMap { $0 }
+                let heroRolesSet = Set<String>(heroRoles)
+                var heroRolesArr = Array(heroRolesSet).sorted()
+                heroRolesArr.insert("All", at: 0)
+                completionHandler(decodeHero, heroRolesArr)
             } catch let error {
                 print("error : \(error)")
             }

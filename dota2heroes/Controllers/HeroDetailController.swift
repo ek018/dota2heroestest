@@ -1,10 +1,3 @@
-//
-//  HeroDetailController.swift
-//  dota2heroes
-//
-//  Created by Eko Prasetiyo on 20/10/22.
-//
-
 import UIKit
 import Kingfisher
 
@@ -35,13 +28,13 @@ class HeroDetailController: BaseViewController {
     
     lazy var heroThumbnailImage: UIImageView = {
        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.frame = CGRect(x: 0,
                                  y: 0,
                                  width: view.frame.width,
                                  height: view.frame.height*0.5)
-        imageView.backgroundColor = .systemTeal
+        imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -51,7 +44,7 @@ class HeroDetailController: BaseViewController {
         heroTitle.translatesAutoresizingMaskIntoConstraints = false
         heroTitle.clipsToBounds = true
         heroTitle.backgroundColor = .white
-//        heroTitle.heroIconImage.backgroundColor = .red
+
         return heroTitle
     }()
     
@@ -65,6 +58,7 @@ class HeroDetailController: BaseViewController {
     lazy var heroStatusDetailViewCell: UITableView = {
        let heroStatusDetailViewCell = UITableView()
         heroStatusDetailViewCell.translatesAutoresizingMaskIntoConstraints = false
+        
         return heroStatusDetailViewCell
     }()
     
@@ -139,17 +133,16 @@ class HeroDetailController: BaseViewController {
         heroThumbnailImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         heroThumbnailImage.heightAnchor.constraint(equalToConstant: 150).isActive = true
        
-        
         // hero title
         heroTitleView.topAnchor.constraint(equalTo: heroThumbnailImage.bottomAnchor, constant: 24).isActive = true
         heroTitleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         heroTitleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 
-        
         // hero type
         heroTypeDetailView.topAnchor.constraint(equalTo: heroTitleView.bottomAnchor, constant: 24).isActive = true
         heroTypeDetailView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         heroTypeDetailView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
         // hero status
         heroStatusDetailViewCell.topAnchor.constraint(equalTo: heroTypeDetailView.bottomAnchor, constant: 24).isActive = true
         heroStatusDetailViewCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
@@ -166,12 +159,15 @@ class HeroDetailController: BaseViewController {
     func bindDataToUIView() {
         DispatchQueue.main.async {
             [weak self] in guard let self = self else { return }
-            print("hero img : \(self.heroImage)")
-            self.heroThumbnailImage.kf.setImage(with: URL(string: "\(ApiServices.baseURL)\(self.heroImage)"))
-            self.heroTitleView.heroIconImage.kf.setImage(with: URL(string: "\(ApiServices.baseURL)\(self.heroIcon)"))
+            print("url img \(self.heroImage)")
+            self.heroThumbnailImage.kf.setImage(with: URL(string: self.heroImage ?? ""))
+            self.heroTitleView.heroIconImage.kf.setImage(with: URL(string: self.heroIcon ?? ""))
             self.heroTitleView.titleLabel.text = self.heroName
             self.heroTitleView.subtitleLabel.text = self.heroAttr?.uppercased()
             self.heroTypeDetailView.subtitleLabel.text = self.attackType
+            
+            self.heroStatusDetailViewCell.reloadData()
+            self.heroRolesDetailViewCell.reloadData()
         }
     }
 }
@@ -198,9 +194,14 @@ extension HeroDetailController: UITableViewDelegate, UITableViewDataSource {
             tableView.heightAnchor.constraint(equalToConstant: tableView.contentSize.height).isActive = true
             if let cell = cell {
                 let heroBaseData = heroBasicStatus?[indexPath.row]
+                cell.heroBaseStatImage.backgroundColor = .gray
                 cell.heroBaseStatImage.image = UIImage(named: heroBasicStatus?[indexPath.row].icon ?? "house")
                 cell.heroBaseTitleLabel.text = heroBaseData?.baseStatus
-//                cell.heroBaseDataSubtitleLabel.text = heroBaseData?.baseStatusData
+                
+                guard let statusData = heroBaseData?.baseStatusData else {
+                    return UITableViewCell()
+                }
+                cell.heroBaseDataSubtitleLabel.text = String(statusData)
                 return cell
             }
         }

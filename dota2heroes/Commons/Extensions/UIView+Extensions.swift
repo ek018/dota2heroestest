@@ -1,10 +1,3 @@
-//
-//  UIView+Extensions.swift
-//  dota2heroes
-//
-//  Created by Eko Prasetiyo on 25/10/22.
-//
-
 import UIKit
 
 extension UIView {

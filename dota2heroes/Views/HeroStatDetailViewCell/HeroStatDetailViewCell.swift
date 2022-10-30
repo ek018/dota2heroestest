@@ -2,7 +2,7 @@
 //  HeroStatDetailViewCell.swift
 //  dota2heroes
 //
-//  Created by Eko Prasetiyo on 22/10/22.
+//  Created by Eko Prasetiyo on 27/10/22.
 //
 
 import UIKit
